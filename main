@@ -1,19 +1,21 @@
 #include <windows.h>
 #include <math.h>
 #ifdef __APPLE__
-#else
 #include <GL/glut.h>
-#endif
 
 #include <stdlib.h>
 
-float transx = 0.0;
-float transy = 0.0;
+float transx = 0.0;   // valares para inicializacao
+float transy = 0.0;   // valares para inicializacao
 
 float escx = 1.0;
 float escy = 1.0;
+      
+// Recricacao das funcoes de vertices
+// vt1x -> vertice1emX
+// vt1x -> vertice1emX
 
-float vt1x, vt1y, vt2x, vt2y, vt3x, vt3y,vt4x, vt4y,vt5x, vt5y,vt6x, vt6y;
+float vertice1emX, vertice1emY, vertice2emX, vertice2emY, vertice3emX, vertice3emY,vertice4emX, vertice4emY,vertice5emX, vertice5emY,vertice6emX, vertice6emY;
 
 void DesenhaCena(){
     glClear(GL_COLOR_BUFFER_BIT);
@@ -27,86 +29,87 @@ void DesenhaCena(){
 
     // Corpo do helicóptero
     glBegin(GL_POLYGON);
-		glColor3f(0.5, 0.5, 0.0);
-		glVertex2f(vt1x+3.8*escx+transx, vt1y+1.5*escy+transy); //1
-		glVertex2f(vt1x+3.6*escx+transx, vt1y+1*escy+transy); // 2
-		glVertex2f(vt1x+3.8*escx+transx, vt1y+-1.5*escy+transy);//3
-		glVertex2f(vt1x+4.3*escx+transx, vt1y+-1.5*escy+transy); // 4
-		glVertex2f(vt1x+4.5*escx+transx, vt1y+1.0*escy+transy); //5
-		glVertex2f(vt1x+4.3*escx+transx, vt1y+1.5*escy+transy); //6
-	glEnd();
-
-    // VERTICAL
-    // Sibila irá prover a rotação
-	// Hélice
-	glBegin(GL_TRIANGLES);
-        glColor3f(0.5, 0.0, 0.0);
-        glVertex2f(vt1x+3.6*escx+transx, vt1y+3.5*escy+transy);
-        glVertex2f(vt1x+4.6*escx+transx, vt1y+3.5*escy+transy);
-        glVertex2f(vt1x+4.0*escx+transx, vt1y+0.0*escy+transy);
+        glColor3f(0.5, 0.5, 0.0);
+        glVertex2f(vertice1emX+3.8*escx+transx, vertice1emY+1.5*escy+transy); //1
+        glVertex2f(vertice1emX+3.6*escx+transx, vertice1emY+1*escy+transy); // 2
+        glVertex2f(vertice1emX+3.8*escx+transx, vertice1emY+-1.5*escy+transy);//3
+        glVertex2f(vertice1emX+4.3*escx+transx, vertice1emY+-1.5*escy+transy); // 4
+        glVertex2f(vertice1emX+4.5*escx+transx, vertice1emY+1.0*escy+transy); //5
+        glVertex2f(vertice1emX+4.3*escx+transx, vertice1emY+1.5*escy+transy); //6
     glEnd();
 
-    //helice 1 agora meus amores
-	glBegin(GL_TRIANGLES);
+
+    // Hélice
+    glBegin(GL_TRIANGLES);
         glColor3f(0.5, 0.0, 0.0);
-        glVertex2f(vt1x+3.6*escx+transx, vt1y-3.5*escy+transy);
-        glVertex2f(vt1x+4.6*escx+transx, vt1y-3.5*escy+transy);
-        glVertex2f(vt1x+4.0*escx+transx, vt1y+0.0*escy+transy);
+        glVertex2f(vertice1emX+3.6*escx+transx, vertice1emY+3.5*escy+transy);
+        glVertex2f(vertice1emX+4.6*escx+transx, vertice1emY+3.5*escy+transy);
+        glVertex2f(vertice1emX+4.0*escx+transx, vertice1emY+0.0*escy+transy);
+    glEnd();
+
+    //helice 1
+    glBegin(GL_TRIANGLES);
+        glColor3f(0.5, 0.0, 0.0);
+        glVertex2f(vertice1emX+3.6*escx+transx, vertice1emY-3.5*escy+transy);
+        glVertex2f(vertice1emX+4.6*escx+transx, vertice1emY-3.5*escy+transy);
+        glVertex2f(vertice1emX+4.0*escx+transx, vertice1emY+0.0*escy+transy);
     glEnd();
     glutSwapBuffers();
 
 }
 
+
 void Inicio(){
     //cor de fundo
     glClearColor(250.0, 250.0, 250.0, 0.0);
-    vt1x = -1.0;
-    vt1y = -1.0;
-    vt2x = 1.0;
-    vt2y = -1.0;
-    vt3x = 0.0;
-    vt3y = 1.0;
+    vertice1emX = -1.0;
+    vertice1emY = -1.0;
+    vertice2emX = 1.0;
+    vertice2emY = -1.0;
+    vertice3emX = 0.0;
+    vertice3emY = 1.0;
 }
 
+// promove movimento de rotacao
 void Rotacao(float angulo){
     angulo = (angulo * 3.14)/180.0;
 
     float auxX = 0.0;
     float auxY = 0.0;
 
-    auxX = vt1x * cos(angulo) - vt1y * sin(angulo);
-    auxY = vt1x * sin(angulo) + vt1y * cos(angulo);
-    vt1x = auxX;
-    vt1y = auxY;
+    auxX = vertice1emX * cos(angulo) - vertice1emY * sin(angulo);
+    auxY = vertice1emX * sin(angulo) + vertice1emY * cos(angulo);
+    vertice1emX = auxX;
+    vertice1emY = auxY;
 
-    auxX = vt2x * cos(angulo) - vt2y * sin(angulo);
-    auxY = vt2x * sin(angulo) + vt2y * cos(angulo);
-    vt2x = auxX;
-    vt2y = auxY;
+    auxX = vertice2emX * cos(angulo) - vertice2emY * sin(angulo);
+    auxY = vertice2emX * sin(angulo) + vertice2emY * cos(angulo);
+    vertice2emX = auxX;
+    vertice2emY = auxY;
 
-    auxX = vt3x * cos(angulo) - vt3y * sin(angulo);
-    auxY = vt3x * sin(angulo) + vt3y * cos(angulo);
-    vt3x = auxX;
-    vt3y = auxY;
+    auxX = vertice3emX * cos(angulo) - vertice3emY * sin(angulo);
+    auxY = vertice3emX * sin(angulo) + vertice3emY * cos(angulo);
+    vertice3emX = auxX;
+    vertice3emY = auxY;
 
-    auxX = vt4x * cos(angulo) - vt4y * sin(angulo);
-    auxY = vt4x * sin(angulo) + vt4y * cos(angulo);
-    vt4x = auxX;
-    vt4y = auxY;
+    auxX = vertice4emX * cos(angulo) - vertice4emY * sin(angulo);
+    auxY = vertice4emX * sin(angulo) + vertice4emY * cos(angulo);
+    vertice4emX = auxX;
+    vertice4emY = auxY;
 
-    auxX = vt5x * cos(angulo) - vt5y * sin(angulo);
-    auxY = vt5x * sin(angulo) + vt5y * cos(angulo);
-    vt5x = auxX;
-    vt5y = auxY;
+    auxX = vertice5emX * cos(angulo) - vertice5emY * sin(angulo);
+    auxY = vertice5emX * sin(angulo) + vertice5emY * cos(angulo);
+    vertice5emX = auxX;
+    vertice5emY = auxY;
 
-    auxX = vt6x * cos(angulo) - vt6y * sin(angulo);
-    auxY = vt6x * sin(angulo) + vt6y * cos(angulo);
-    vt6x = auxX;
+    auxX = vertice6emX * cos(angulo) - vt6y * sin(angulo);
+    auxY = vertice6emX * sin(angulo) + vt6y * cos(angulo);
+    vertice6emX = auxX;
     vt6y = auxY;
 
 
 }
-
+// funcao para validacao de teclas direcionais
 void Setas(int tecla, int x, int y){
     if(tecla == GLUT_KEY_UP){
         transy += 0.5;
@@ -139,6 +142,7 @@ void Setas(int tecla, int x, int y){
     glutPostRedisplay();
 }
 
+// funcao para validacao de teclas normais
 void TeclasNormais(unsigned char tecla, int x, int y){
     if(tecla == 'A' || tecla == 'a'){
         escx += 0.5;
@@ -160,22 +164,23 @@ void TeclasNormais(unsigned char tecla, int x, int y){
     glutPostRedisplay();
 }
 
+// main!
 int main(int argc, char *argv[]){
 
     glutInit(&argc, argv);
 
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
 
-    glutInitWindowSize(800, 800);
+    glutInitWindowSize(800, 800);   // definicao do formato da tela
 
     glutCreateWindow("Trabalho 1 - Alexandre & Sibila");
 
-    glutSpecialFunc(Setas);
-    glutKeyboardFunc(TeclasNormais);
+    glutSpecialFunc(Setas);          // criacao validacao de teclas
+    glutKeyboardFunc(TeclasNormais); // criacao validacao de teclas
 
-    glutDisplayFunc(DesenhaCena);
+    glutDisplayFunc(DesenhaCena);    // chamada da cena
 
-    Inicio();
+    Inicio();                        // comecando
 
     glutMainLoop();
 }
