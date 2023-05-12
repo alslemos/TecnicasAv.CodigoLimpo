@@ -1,0 +1,181 @@
+#include <windows.h>
+#include <math.h>
+#ifdef __APPLE__
+#else
+#include <GL/glut.h>
+#endif
+
+#include <stdlib.h>
+
+float transx = 0.0;
+float transy = 0.0;
+
+float escx = 1.0;
+float escy = 1.0;
+
+float vt1x, vt1y, vt2x, vt2y, vt3x, vt3y,vt4x, vt4y,vt5x, vt5y,vt6x, vt6y;
+
+void DesenhaCena(){
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+
+    gluOrtho2D(-10, 10, -10, 10);
+
+    glColor3f(1.0, 0.0, 0.0);
+
+    // Corpo do helicóptero
+    glBegin(GL_POLYGON);
+		glColor3f(0.5, 0.5, 0.0);
+		glVertex2f(vt1x+3.8*escx+transx, vt1y+1.5*escy+transy); //1
+		glVertex2f(vt1x+3.6*escx+transx, vt1y+1*escy+transy); // 2
+		glVertex2f(vt1x+3.8*escx+transx, vt1y+-1.5*escy+transy);//3
+		glVertex2f(vt1x+4.3*escx+transx, vt1y+-1.5*escy+transy); // 4
+		glVertex2f(vt1x+4.5*escx+transx, vt1y+1.0*escy+transy); //5
+		glVertex2f(vt1x+4.3*escx+transx, vt1y+1.5*escy+transy); //6
+	glEnd();
+
+    // VERTICAL
+    // Sibila irá prover a rotação
+	// Hélice
+	glBegin(GL_TRIANGLES);
+        glColor3f(0.5, 0.0, 0.0);
+        glVertex2f(vt1x+3.6*escx+transx, vt1y+3.5*escy+transy);
+        glVertex2f(vt1x+4.6*escx+transx, vt1y+3.5*escy+transy);
+        glVertex2f(vt1x+4.0*escx+transx, vt1y+0.0*escy+transy);
+    glEnd();
+
+    //helice 1 agora meus amores
+	glBegin(GL_TRIANGLES);
+        glColor3f(0.5, 0.0, 0.0);
+        glVertex2f(vt1x+3.6*escx+transx, vt1y-3.5*escy+transy);
+        glVertex2f(vt1x+4.6*escx+transx, vt1y-3.5*escy+transy);
+        glVertex2f(vt1x+4.0*escx+transx, vt1y+0.0*escy+transy);
+    glEnd();
+    glutSwapBuffers();
+
+}
+
+void Inicio(){
+    //cor de fundo
+    glClearColor(250.0, 250.0, 250.0, 0.0);
+    vt1x = -1.0;
+    vt1y = -1.0;
+    vt2x = 1.0;
+    vt2y = -1.0;
+    vt3x = 0.0;
+    vt3y = 1.0;
+}
+
+void Rotacao(float angulo){
+    angulo = (angulo * 3.14)/180.0;
+
+    float auxX = 0.0;
+    float auxY = 0.0;
+
+    auxX = vt1x * cos(angulo) - vt1y * sin(angulo);
+    auxY = vt1x * sin(angulo) + vt1y * cos(angulo);
+    vt1x = auxX;
+    vt1y = auxY;
+
+    auxX = vt2x * cos(angulo) - vt2y * sin(angulo);
+    auxY = vt2x * sin(angulo) + vt2y * cos(angulo);
+    vt2x = auxX;
+    vt2y = auxY;
+
+    auxX = vt3x * cos(angulo) - vt3y * sin(angulo);
+    auxY = vt3x * sin(angulo) + vt3y * cos(angulo);
+    vt3x = auxX;
+    vt3y = auxY;
+
+    auxX = vt4x * cos(angulo) - vt4y * sin(angulo);
+    auxY = vt4x * sin(angulo) + vt4y * cos(angulo);
+    vt4x = auxX;
+    vt4y = auxY;
+
+    auxX = vt5x * cos(angulo) - vt5y * sin(angulo);
+    auxY = vt5x * sin(angulo) + vt5y * cos(angulo);
+    vt5x = auxX;
+    vt5y = auxY;
+
+    auxX = vt6x * cos(angulo) - vt6y * sin(angulo);
+    auxY = vt6x * sin(angulo) + vt6y * cos(angulo);
+    vt6x = auxX;
+    vt6y = auxY;
+
+
+}
+
+void Setas(int tecla, int x, int y){
+    if(tecla == GLUT_KEY_UP){
+        transy += 0.5;
+    }
+    else{
+        if(tecla == GLUT_KEY_DOWN){
+                transy -= 0.5;
+        }
+        else{
+            if(tecla == GLUT_KEY_RIGHT){
+                    transx += 0.5;
+            }
+            else {
+                if(tecla == GLUT_KEY_LEFT){
+                        transx -= 0.5;
+                }
+                else{
+                    if(tecla == GLUT_KEY_F1){
+                        Rotacao(10.0);
+                    }
+                    else{
+                        if(tecla == GLUT_KEY_F2){
+                            Rotacao(-10.0);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    glutPostRedisplay();
+}
+
+void TeclasNormais(unsigned char tecla, int x, int y){
+    if(tecla == 'A' || tecla == 'a'){
+        escx += 0.5;
+        escy += 0.5;
+    }
+    else{
+        if(tecla == 'D' || tecla == 'd'){
+            escx -= 0.5;
+            escy -= 0.5;
+        }
+    }
+    if(tecla == 'R' || tecla == 'r'){
+        transx = 0.0;
+        transy = 0.0;
+        escx = 1.0;
+        escy = 1.0;
+        }
+
+    glutPostRedisplay();
+}
+
+int main(int argc, char *argv[]){
+
+    glutInit(&argc, argv);
+
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+
+    glutInitWindowSize(800, 800);
+
+    glutCreateWindow("Trabalho 1 - Alexandre & Sibila");
+
+    glutSpecialFunc(Setas);
+    glutKeyboardFunc(TeclasNormais);
+
+    glutDisplayFunc(DesenhaCena);
+
+    Inicio();
+
+    glutMainLoop();
+}
